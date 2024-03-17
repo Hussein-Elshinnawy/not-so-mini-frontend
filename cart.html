@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>cart</h1>
+    <div id="cartItems"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+        function addToCart(newOrderItem) {
+          cart.push(newOrderItem); 
+          sessionStorage.setItem("cart", JSON.stringify(cart)); 
+        }
+        function displayCartItems() {
+          const cartItemsContainer = document.getElementById("cartItems");
+          cartItemsContainer.innerHTML = ""; 
+          cart.forEach((item) => {
+            const itemElement = document.createElement("div");
+            itemElement.innerHTML = `
+        <p>Product ID: ${item.id}</p>
+        <p>Quantity: ${item.quantity}</p>
+      `;
+            cartItemsContainer.appendChild(itemElement);
+          });
+        }
+        displayCartItems();
+      });
+
+      //   document.addEventListener("DOMContentLoaded", function() {
+      //     const orderItem = JSON.parse(sessionStorage.getItem('orderItem'));
+      //     const cartItemsContainer = document.getElementById('cartItems');
+      //     const itemElement = document.createElement('div');
+      //     itemElement.innerHTML = `
+      //       <p>Product ID: ${orderItem.id}</p>
+      //       <p>Quantity: ${orderItem.quantity}</p>
+      //     `;
+      //     cartItemsContainer.appendChild(itemElement);
+
+      //     sessionStorage.removeItem('orderItem');
+      //   });
+    </script>
+  </body>
+</html>
