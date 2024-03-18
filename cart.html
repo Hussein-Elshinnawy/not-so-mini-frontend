@@ -8,17 +8,18 @@
   <body>
     <h1>cart</h1>
     <div id="cartItems"></div>
+    <button onclick="order()">order</button>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         function addToCart(newOrderItem) {
-          cart.push(newOrderItem); 
-          sessionStorage.setItem("cart", JSON.stringify(cart)); 
+          cart.push(newOrderItem);
+          sessionStorage.setItem("cart", JSON.stringify(cart));
         }
         function displayCartItems() {
           const cartItemsContainer = document.getElementById("cartItems");
-          cartItemsContainer.innerHTML = ""; 
+          cartItemsContainer.innerHTML = "";
           cart.forEach((item) => {
             const itemElement = document.createElement("div");
             itemElement.innerHTML = `
@@ -28,21 +29,42 @@
             cartItemsContainer.appendChild(itemElement);
           });
         }
-        displayCartItems();
+        displayCartItems(); 
       });
+      function order() {
+  // Retrieve the userId from the URL parameters
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const userId = urlParams.get("userId");
 
-      //   document.addEventListener("DOMContentLoaded", function() {
-      //     const orderItem = JSON.parse(sessionStorage.getItem('orderItem'));
-      //     const cartItemsContainer = document.getElementById('cartItems');
-      //     const itemElement = document.createElement('div');
-      //     itemElement.innerHTML = `
-      //       <p>Product ID: ${orderItem.id}</p>
-      //       <p>Quantity: ${orderItem.quantity}</p>
-      //     `;
-      //     cartItemsContainer.appendChild(itemElement);
+  // Retrieve the cart from sessionStorage
+  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
-      //     sessionStorage.removeItem('orderItem');
-      //   });
+  // Store the cart in sessionStorage under a different key for order.html to access
+  sessionStorage.setItem("orderItems", JSON.stringify(cart));
+
+  // Clear the cart from sessionStorage
+  sessionStorage.removeItem("cart");
+
+  // Navigate to order.html with userId in the query string
+  window.location.href = `order.html?userId=${userId}`;
+}
+
+      // function order() {
+      //   // Retrieve the userId from the URL parameters
+      //   const queryString = window.location.search;
+      //   const urlParams = new URLSearchParams(queryString);
+      //   const userId = urlParams.get("userId");
+
+      //   // Retrieve the cart from sessionStorage
+      //   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+      //   // Navigate to order.html with userId in the query string
+      //   window.location.href = `order.html?userId=${userId}`;
+
+      //   // Store the cart in sessionStorage under a different key for order.html to access
+      //   sessionStorage.setItem("orderItems", JSON.stringify(cart));
+      // }
     </script>
   </body>
 </html>

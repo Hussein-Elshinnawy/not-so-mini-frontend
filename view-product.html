@@ -44,71 +44,10 @@
     </div>
 
     <script>
-      // let quantity = 1;
-      // let productId;
-      // function incrementQuantity() {
-      //   if (quantity < 10) {
-      //     quantity++;
-      //     document.getElementById("productQuantity").textContent = quantity;
-      //   }
-      // }
-      // function decrementQuantity() {
-      //   if (quantity > 1) {
-      //     quantity--;
-      //     document.getElementById("productQuantity").textContent = quantity;
-      //   }
-      // }
-      // document.addEventListener("DOMContentLoaded", function () {
-      //   const queryString = window.location.search;
-      //   const urlParams = new URLSearchParams(queryString);
-      //   const productId = urlParams.get("productID");
-      //   fetchProductDetails(productId);
-      // });
-      // function fetchProductDetails(productId) {
-      //   fetch(`http://localhost:3000/api/v1/product/${productId}`)
-      //     .then((response) => response.json())
-      //     .then((product) => {
-      //       document.getElementById("productName").textContent = product.name;
-      //       document.getElementById("productDescription").textContent =
-      //         product.description;
-      //       document.getElementById(
-      //         "productPrice"
-      //       ).textContent = `$${product.price}`;
-      //       console.log("product id" + product.id);
-      //       tempproductId = product.id;
-      //       document.getElementById("productImage").src = product.image;
-      //       document.getElementById("productStock").textContent = product.stock;
-      //       document.getElementById("productRating").textContent =
-      //         product.rating;
-      //       product.images.forEach((image) => {
-      //         const imgElement = document.createElement("img");
-      //         imgElement.src = image;
-      //         imgElement.alt = product.name;
-      //         document.getElementById("productGallery").appendChild(imgElement);
-      //       });
-      //     })
-      //     .catch((error) => {
-      //       console.error("Error fetching product details:", error);
-      //     });
-      // }
-      // function addToCart() {
-      //   const quantity = document.getElementById("productQuantity").textContent;
-
-      //   // Create orderItem object
-      //   const orderItem = {
-      //     id: productId, // Use the productId from the higher scope
-      //     quantity: quantity,
-      //   };
-
-      //   // Store orderItem in sessionStorage
-      //   sessionStorage.setItem("orderItem", JSON.stringify(orderItem));
-
-      //   // Navigate to cart.html
-      //   window.location.href = "cart.html";
-      // }
 
       let quantity = 1;
       let productId;
+      let userId;
       function incrementQuantity() {
         if (quantity < 10) {
           quantity++;
@@ -124,7 +63,8 @@
       document.addEventListener("DOMContentLoaded", function () {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        productId = urlParams.get("productID"); // Assign value to productId here
+        userId=urlParams.get("user");
+        productId = urlParams.get("productID");
         fetchProductDetails(productId);
       });
 
@@ -138,7 +78,6 @@
             document.getElementById(
               "productPrice"
             ).textContent = `$${product.price}`;
-            console.log("product id: " + product.id);
             document.getElementById("productImage").src = product.image;
             document.getElementById("productStock").textContent = product.stock;
             document.getElementById("productRating").textContent =
@@ -172,7 +111,7 @@
         sessionStorage.setItem("cart", JSON.stringify(cart));
 
         // Navigate to cart.html
-        window.location.href = "cart.html";
+        window.location.href =  `cart.html?userId=${userId}`;
       }
 
       // function addToCart() {

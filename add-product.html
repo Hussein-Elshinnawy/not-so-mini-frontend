@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Product</title>
+    <link rel="stylesheet" href="./css/auth.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Add New Product</h1>
+      <form id="addProductForm" enctype="multipart/form-data">
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea
+        >
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required />
+
+        <label for="image">Product Image:</label>
+        <input type="file" id="image" name="image" required />
+
+        <label for="numberInStock">Number in Stock:</label>
+        <input
+          type="number"
+          id="numberInStock"
+          name="numberInStock"
+          required
+        />
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" required />
+
+        <label for="rating">Rating:</label>
+        <input
+          type="number"
+          id="rating"
+          name="rating"
+          step="1"
+          min="0"
+          max="5"
+        />
+
+        <label for="isAvailable">Is Available:</label>
+        <select id="isAvailable" name="isAvailable">
+          <option value="true">Yes</option>
+          <option value="false">No</option></select
+        >
+
+        <button type="submit">Add Product</button>
+      </form>
+    </div>
+    <script>
+        document.getElementById('addProductForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+        
+          // Collect the form data
+          const name = document.getElementById("name").value;
+          const description = document.getElementById("description").value;
+          const price = document.getElementById("price").value;
+          const numberInStock = document.getElementById("numberInStock").value;
+          const category = document.getElementById("category").value;
+          const rating = document.getElementById("rating").value;
+          const isAvailable = document.getElementById("isAvailable").value;
+          const imageElement = document.getElementById("image");
+          const imageFile = imageElement.files[0];
+        
+          // Create a FormData object to include the image file
+          const formData = new FormData();
+          formData.append('image', imageFile);
+          formData.append('name', name);
+          formData.append('description', description);
+          formData.append('price', price);
+          formData.append('numberInStock', numberInStock);
+          formData.append('category', category);
+          formData.append('rating', rating);
+          formData.append('isAvailable', isAvailable);
+        
+          fetch("http://localhost:3000/api/v1/product/", { // Make sure this URL is correct
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the authorization token in the header
+            },
+            body: formData
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log("Success:", data);
+            alert("Product added successfully!");
+            // Add any additional actions you want to take after a successful submission
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Failed to add product.");
+          });
+        });
+        </script>
+        
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Product</title>
+    <link rel="stylesheet" href="./css/auth.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Add New Product</h1>
+      <form id="addProductForm" enctype="multipart/form-data">
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" name="name" required />
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required />
+
+        <label for="image">Product Image:</label>
+        <input type="file" id="image" name="image" required />
+
+        <label for="numberInStock">Number in Stock:</label>
+        <input type="number" id="numberInStock" name="numberInStock" required />
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" required />
+
+        <label for="rating">Rating:</label>
+        <input
+          type="number"
+          id="rating"
+          name="rating"
+          step="0.1"
+          min="0"
+          max="5"
+        />
+
+        <label for="isAvailable">Is Available:</label>
+        <select id="isAvailable" name="isAvailable">
+          <option value="true">Yes</option>
+          <option value="false">No</option></select
+        >
+
+        <button type="submit">Add Product</button>
+      </form>
+    </div>
+    <script>
+      document
+        .getElementById("addProductForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+
+          const formData = new FormData(this);
+          fetch("http://localhost:3000/api/v1/order/", {
+            // Make sure this URL is correct
+            method: "POST",
+            headers: {
+              // "Content-Type": "application/json", // This line should be removed because we're sending form data
+              Authorization: `Bearer ${token}`, // Include the authorization token in the header
+            },
+            body: formData,
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((data) => {
+              console.log("Success:", data);
+              alert("Product added successfully!");
+              // Add any additional actions you want to take after a successful submission
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Failed to add product.");
+            });
+        });
+    </script>
+  </body>
+</html> -->

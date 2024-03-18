@@ -65,6 +65,7 @@ body {
   .product {
     display: inline-block;
     width: 20%;
+    height: 300pxn;
     margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;

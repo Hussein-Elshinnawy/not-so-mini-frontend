@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/auth.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Order Now</h1>
+      <!-- <form id="shippingForm">
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" required /><br /><br />
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required /><br /><br />
+
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required /><br /><br />
+
+        <label for="zip">Zip Code:</label>
+        <input type="text" id="zip" name="zip" required /><br /><br />
+
+        <button type="submit" onclick="order()">Order</button>
+      </form> -->
+      <form id="shippingForm" onsubmit="return order(event)">
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" required /><br /><br />
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required /><br /><br />
+
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required /><br /><br />
+
+        <label for="zip">Zip Code:</label>
+        <input type="text" id="zip" name="zip" required /><br /><br />
+
+        <button type="submit">Order</button>
+      </form>
+    </div>
+
+    <script>
+      function order(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Retrieve the input values
+        const street = document.getElementById("street").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const country = document.getElementById("country").value.trim();
+        const zip = document.getElementById("zip").value.trim();
+
+        // Check if any of the fields are empty
+        if (!street || !city || !country || !zip) {
+          alert("Please fill in all the fields.");
+          return false; // Stop the function if any field is empty
+        }
+
+        const token = localStorage.getItem("token");
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const userId = urlParams.get("userId");
+        let orderItems = JSON.parse(sessionStorage.getItem("orderItems")) || [];
+        const shippingAddress = `${street}, ${city}, ${country}, ${zip}`;
+        const status = "Processing";
+        const dateOrdered = new Date().toISOString();
+        const orderData = {
+          orderItems: orderItems.map((item) => ({
+            quantity: item.quantity,
+            product: item.id,
+          })),
+          shippingAddress: shippingAddress,
+          status: status,
+          user: userId,
+          dateOrdered: dateOrdered,
+        };
+
+        fetch("http://localhost:3000/api/v1/order/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(orderData),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Order created:", data);
+            alert("Your order has been placed successfully.");
+            window.location.href = `index.html?user=${userId}`;
+          })
+          .catch((error) => {
+            console.error("Error creating order:", error);
+            alert("There was an error processing your order.");
+          });
+
+        return false; // Return false to prevent form submission
+      }
+
+      //   function order() {
+      //     const token = localStorage.getItem("token");
+      //     const queryString = window.location.search;
+      //     const urlParams = new URLSearchParams(queryString);
+      //     const userId = urlParams.get("userId");
+      //     let orderItems = JSON.parse(sessionStorage.getItem("orderItems")) || [];
+      //     const shippingAddress =
+      //       document.getElementById("street").value +
+      //       ", " +
+      //       document.getElementById("city").value +
+      //       ", " +
+      //       document.getElementById("country").value +
+      //       ", " +
+      //       document.getElementById("zip").value;
+
+      //     if (!street || !city || !country || !zip) {
+      //       alert("Please fill in all the fields.");
+      //       return; // Stop the function if any field is empty
+      //     }
+      //     const status = "Processing";
+      //     const dateOrdered = new Date().toISOString();
+      //     const orderData = {
+      //       orderItems: orderItems.map((item) => ({
+      //         quantity: item.quantity,
+      //         product: item.id,
+      //       })),
+      //       shippingAddress: shippingAddress,
+      //       status: status,
+      //       user: userId,
+      //       dateOrdered: dateOrdered,
+      //     };
+      //     fetch("http://localhost:3000/api/v1/order/", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //       body: JSON.stringify(orderData),
+      //     })
+      //       .then((response) => response.json())
+      //       .then((data) => {
+      //         console.log("Order created:", data);
+      //         alert("Your order has been placed successfully.");
+      //         window.location.href = `index.html?user=${userId}`;
+      //       })
+      //       .catch((error) => {
+      //         console.error("Error creating order:", error);
+      //       });
+      //   }
+    </script>
+  </body>
+</html>
