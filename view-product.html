@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product Details</title>
     <style>
-      /* Add your CSS styles here */
       .product-container {
         max-width: 800px;
         margin: auto;
@@ -23,28 +22,35 @@
         opacity: 0.8;
       }
     </style>
+    <link rel="stylesheet" href="./css/auth.css" />
   </head>
   <body>
-    <div class="product-container">
-      <h1 id="productName">Product Name</h1>
-      <img id="productImage" src="" alt="Main Product" class="product-image" />
-      <div class="product-gallery" id="productGallery">
-        <!-- Additional images will be inserted here -->
+    <div class="container">
+      <div class="product-container">
+        <h1 id="productName">Product Name</h1>
+        <img
+          id="productImage"
+          src=""
+          alt="Main Product"
+          class="product-image"
+        />
+        <div class="product-gallery" id="productGallery">
+          <!-- Additional images will be inserted here -->
+        </div>
+        <p id="productDescription">Product Description</p>
+        <p>Price: <span id="productPrice">$0.00</span></p>
+        <p>Number in Stock: <span id="productStock">0</span></p>
+        <p>Rating: <span id="productRating">0</span>/5</p>
+        <div class="quantity-controls">
+          <button onclick="decrementQuantity()">-</button>
+          <span id="productQuantity">1</span>
+          <button onclick="incrementQuantity()">+</button>
+        </div>
+        <button onclick="addToCart()">Add to Cart</button>
       </div>
-      <p id="productDescription">Product Description</p>
-      <p>Price: <span id="productPrice">$0.00</span></p>
-      <p>Number in Stock: <span id="productStock">0</span></p>
-      <p>Rating: <span id="productRating">0</span>/5</p>
-      <div class="quantity-controls">
-        <button onclick="decrementQuantity()">-</button>
-        <span id="productQuantity">1</span>
-        <button onclick="incrementQuantity()">+</button>
-      </div>
-      <button onclick="addToCart()">Add to Cart</button>
     </div>
 
     <script>
-
       let quantity = 1;
       let productId;
       let userId;
@@ -63,7 +69,7 @@
       document.addEventListener("DOMContentLoaded", function () {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        userId=urlParams.get("user");
+        userId = urlParams.get("user");
         productId = urlParams.get("productID");
         fetchProductDetails(productId);
       });
@@ -111,7 +117,7 @@
         sessionStorage.setItem("cart", JSON.stringify(cart));
 
         // Navigate to cart.html
-        window.location.href =  `cart.html?userId=${userId}`;
+        window.location.href = `cart.html?userId=${userId}`;
       }
 
       // function addToCart() {

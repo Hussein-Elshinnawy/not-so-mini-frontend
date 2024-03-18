@@ -93,7 +93,7 @@
           .then((data) => {
             console.log("Order created:", data);
             alert("Your order has been placed successfully.");
-            window.location.href = `index.html?user=${userId}`;
+            window.location.href = `order-history.html?user=${userId}`;
           })
           .catch((error) => {
             console.error("Error creating order:", error);

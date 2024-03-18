@@ -47,35 +47,40 @@ body {
     height: 40px;
     border-radius: 50%;
   }
-  
-  /* Product section styles */
   .products {
     margin: 20px;
-
-    /* display: grid; */
-
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust the minmax values as needed */
+    gap: 10px; /* This sets the gap between grid items */
+    justify-content: center; /* This will center the grid items horizontally */
+    align-items: start; /* Align items to the start of the container along the cross axis */
   }
-  .products *{
-    /* background-color: red; */
-    background-color: whitesmoke;
-    display: flex;
-    justify-content: center;
-    
-  }
+  
   .product {
-    display: inline-block;
-    width: 20%;
-    height: 300pxn;
-    margin: 10px;
+    width: 100%; /* Set to 100% to fill the grid column */
+    height: 300px; /* Corrected typo '300pxn' to '300px' */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    display: flex; /* Enable Flexbox for product */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
+  }
+  
+
+  .products *{
+    /* background-color: red; */
+    background-color: whitesmoke;
+    /* display: flex;
+    justify-content: center; */
+    
   }
   
   .product img {
     width: 100%;
     height: 150px;
-    object-fit: cover;
+    object-fit:contain;
     border-radius: 5px;
   }
   

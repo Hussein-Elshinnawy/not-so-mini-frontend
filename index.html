@@ -50,7 +50,7 @@
 
     <!-- Product section -->
     <div class="products" id="productsContainer">No products</div>
-    <script>
+    <script> 
       let userId;
       document.addEventListener("DOMContentLoaded", function () {
         fetch("http://localhost:3000/api/v1/product")
@@ -58,9 +58,8 @@
           .then((productList) => {
             const productsContainer =
               document.getElementById("productsContainer");
-            // Clear the container
+        
             productsContainer.innerHTML = "";
-            // Dynamically create product elements
             productList.forEach((product) => {
               const productDiv = document.createElement("div");
               productDiv.className = "product";
