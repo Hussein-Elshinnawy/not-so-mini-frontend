@@ -32,13 +32,14 @@
     <div class="container">
       <h1>Order History</h1>
       <div id="ordersContainer"></div>
+      <a class="nav-link" href="./index.html">home</a>
     </div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const userId = urlParams.get("user");
+        const userId = localStorage.getItem("userId");
         fetch(`http://localhost:3000/api/v1/order/user/${userId}`, {
           method: "GET",
           headers: {
@@ -74,58 +75,3 @@
     </script>
   </body>
 </html>
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/auth.css" />
-</head>
-<body>
-    <div>
-        <h1>orders</h1>
-        <div class="orders" id="ordersContainer">No orders</div>
-    </div>
-   
-    <script> 
-      let userId;
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("http://localhost:3000/api/v1/order")
-          .then((response) => response.json())
-          .then((orderList) => {
-            const ordersContainer =
-              document.getElementById("ordersContainer");
-        
-            ordersContainer.innerHTML = "";
-            orderList.forEach((order) => {
-              const orderDiv = document.createElement("div");
-              orderDiv.className = "order";
-              orderDiv.innerHTML = `
-          <img src="${order.image}" alt="${order.name}">
-          <h3>${order.id}</h3>
-          <p>Shipping Address: ${order.shippingAddress}</p>
-          <p>Order date: ${order.dateOrdered}</p>
-          <p>Price: $${order.totalPrice}</p>
-          <p>status: $${order.status}</p>
-          
-        `;
-              const queryString = window.location.search;
-              const urlParams = new URLSearchParams(queryString);
-              userId = urlParams.get("user");
-              // userId = urlParams.get("user");
-              orderDiv.addEventListener("click", function () {
-                window.location.href = `index.html?productID=${productID}&user=${userId}`;
-              });
-
-              ordersContainer.appendChild(productDiv);
-            });
-          })
-          .catch((error) => {
-            console.error("Error fetching orders:", error);
-          });
-      });
-    </script>
-</body>
-</html> -->

@@ -60,7 +60,7 @@
         const token = localStorage.getItem("token");
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const userId = urlParams.get("userId");
+        const userId = localStorage.getItem("userId");
         let orderItems = JSON.parse(sessionStorage.getItem("orderItems")) || [];
         const shippingAddress = `${street}, ${city}, ${country}, ${zip}`;
         const status = "Processing";

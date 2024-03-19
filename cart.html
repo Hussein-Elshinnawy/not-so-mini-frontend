@@ -32,39 +32,20 @@
         displayCartItems(); 
       });
       function order() {
-  // Retrieve the userId from the URL parameters
+ 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const userId = urlParams.get("userId");
+  const userId = localStorage.getItem("userId");
 
-  // Retrieve the cart from sessionStorage
   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
-  // Store the cart in sessionStorage under a different key for order.html to access
   sessionStorage.setItem("orderItems", JSON.stringify(cart));
 
-  // Clear the cart from sessionStorage
   sessionStorage.removeItem("cart");
 
-  // Navigate to order.html with userId in the query string
-  window.location.href = `order.html?userId=${userId}`;
+  window.location.href = `order.html`;
 }
 
-      // function order() {
-      //   // Retrieve the userId from the URL parameters
-      //   const queryString = window.location.search;
-      //   const urlParams = new URLSearchParams(queryString);
-      //   const userId = urlParams.get("userId");
-
-      //   // Retrieve the cart from sessionStorage
-      //   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-
-      //   // Navigate to order.html with userId in the query string
-      //   window.location.href = `order.html?userId=${userId}`;
-
-      //   // Store the cart in sessionStorage under a different key for order.html to access
-      //   sessionStorage.setItem("orderItems", JSON.stringify(cart));
-      // }
     </script>
   </body>
 </html>

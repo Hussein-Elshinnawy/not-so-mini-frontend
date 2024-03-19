@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+    <link rel="stylesheet" href="./css/auth.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Account details</h1>
+      <div id="userDataContainer"></div>
+      <button onclick="logout()">logout</button>
+    </div>
+    <script>
+        function logout(){
+            localStorage.clear();
+            window.location.href = `index.html`;
+        }
+      document.addEventListener("DOMContentLoaded", function () {
+        const userId = localStorage.getItem("userId");
+        const token= localStorage.getItem("token");
+        console.log(userId + "token"+ token);
+        fetch(`http://localhost:3000/api/v1/user/${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((userData) => {
+            console.log("test");
+            const dataDiv = document.createElement("div");
+            dataDiv.className = "data";
+            let dataItemsHtml = "";
+            dataDiv.innerHTML = `
+              <p>name: ${userData.name}</p> 
+              <p>email: ${userData.email}</p> `;
+              userDataContainer.appendChild(dataDiv);
+          })
+          .catch((error) => {
+            console.error("Error fetching orders:", error);
+          });
+      });
+    </script>
+  </body>
 </html>

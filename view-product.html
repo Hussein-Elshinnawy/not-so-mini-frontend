@@ -53,7 +53,7 @@
     <script>
       let quantity = 1;
       let productId;
-      let userId;
+      const userId = localStorage.getItem("userId");
       function incrementQuantity() {
         if (quantity < 10) {
           quantity++;
@@ -69,7 +69,7 @@
       document.addEventListener("DOMContentLoaded", function () {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        userId = urlParams.get("user");
+        // userId = urlParams.get("user");
         productId = urlParams.get("productID");
         fetchProductDetails(productId);
       });
@@ -79,11 +79,8 @@
           .then((response) => response.json())
           .then((product) => {
             document.getElementById("productName").textContent = product.name;
-            document.getElementById("productDescription").textContent =
-              product.description;
-            document.getElementById(
-              "productPrice"
-            ).textContent = `$${product.price}`;
+            document.getElementById("productDescription").textContent = product.description;
+            document.getElementById("productPrice").textContent = `$${product.price}`;
             document.getElementById("productImage").src = product.image;
             document.getElementById("productStock").textContent = product.stock;
             document.getElementById("productRating").textContent =
@@ -106,39 +103,11 @@
           id: productId,
           quantity: quantity,
         };
-
-        // Retrieve the existing cart array or initialize a new one
         let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-
-        // Add the new orderItem to the cart array
         cart.push(orderItem);
-
-        // Store the updated cart array in sessionStorage
         sessionStorage.setItem("cart", JSON.stringify(cart));
-
-        // Navigate to cart.html
-        window.location.href = `cart.html?userId=${userId}`;
+        window.location.href = `cart.html`;
       }
-
-      // function addToCart() {
-      //   const quantity = document.getElementById("productQuantity").textContent;
-
-      //   const orderItem = {
-      //     id: productId,
-      //     quantity: quantity,
-      //   };
-
-      //   console.log("Storing orderItem:", orderItem); // Debugging line
-
-      //   sessionStorage.setItem("orderItem", JSON.stringify(orderItem));
-
-      //   console.log(
-      //     "Retrieved orderItem:",
-      //     JSON.parse(sessionStorage.getItem("orderItem"))
-      //   );
-
-      //   window.location.href = "cart.html";
-      // }
     </script>
   </body>
 </html>
